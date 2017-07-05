@@ -16,91 +16,54 @@ namespace Cozmo
 {
 	namespace AR
 	{
+		using SocketIO;
 		using UnityEngine;
 
-		// Requires and implements Jonathan Pavlou's WebSocketUnity.
-		// Open "/Assets/WebSocketUnity/README.md" for more information.
-		public class WebSocketClient : MonoBehaviour, WebSocketUnityDelegate
+		// Requires and implements Socket.IO.
+		public class WebSocketClient : MonoBehaviour
 		{
-			[Tooltip( "URL of Cozmo's web socket server" )]
-			public string url = "ws://echo.websocket.org";
+			private SocketIOComponent mSocket = null;
 
-			private bool mConnect = false;
-			private WebSocketUnity mSocket = null;
-			private string mUrl = "";
-
-			private void OnDestroy()
+			private void Awake()
 			{
-				// Close web socket on the way out
-				if ( mSocket != null && mSocket.IsOpened() ) {
-					mSocket.Close();
+				mSocket = GetComponent<SocketIOComponent>();
+
+				if ( mSocket != null ) {
+					mSocket.On( "open", OnOpen);
+					mSocket.On( "close", OnClose);
+					mSocket.On( "error", OnError);
+					mSocket.On( "boop", OnBoop);
 				}
 			}
 
-			private void Update()
+			public void OnBoop( SocketIOEvent e )
 			{
-				if ( url != mUrl ) {
-					if ( mSocket != null && mSocket.IsOpened() ) {
-						mSocket.Close();
-						mSocket = null;
-						mConnect = false;
-					} else {
-						mConnect = true;
-					}
-				}
-				mUrl = url;
-
-				if ( mConnect ) {
-					if ( mSocket == null ) {
-						mSocket = new WebSocketUnity( url, this );
-					}
-					mSocket.Open();
-					mConnect = false;
-				}
-			}
-
-			// Implements WebSocketUnityDelegate
-			public void OnWebSocketUnityOpen( string sender )
-			{
-				Debug.Log( sender + " opened" );
-			}
-
-			// Implements WebSocketUnityDelegate
-			public void OnWebSocketUnityClose( string reason )
-			{
-				Debug.Log( "Socket closed: " + reason );
-				mConnect = true;
-			}
-
-			// Implements WebSocketUnityDelegate
-			public void OnWebSocketUnityReceiveMessage( string message )
-			{
-				Debug.Log( "Message received: " + message );
+				Debug.Log( "[SocketIO] Boop received: " + e.name + " " + e.data );
 
 				// The server sends numbers representing values in 
 				// the `FireworkController.LaunchType` enumerator
-				int t = 0;
-				if ( int.TryParse( message, out t ) ) {
-					FireworkController.Launch( (FireworkController.LaunchType)t );
+				if ( e.data != null && e.data.HasField( "message" ) ) {
+					int t = 0;
+					JSONObject msg = e.data.GetField( "message" );
+					if ( msg != null && int.TryParse( msg.str, out t ) ) {
+						FireworkController.Launch( (FireworkController.LaunchType)t );
+					}
 				}
 			}
 
-			// Implements WebSocketUnityDelegate
-			public void OnWebSocketUnityReceiveDataOnMobile( string base64EncodedData )
-			{
-				Debug.Log( "Encoded data received: " + base64EncodedData );
+			public void OnClose( SocketIOEvent e )
+			{	
+				Debug.Log( "[SocketIO] Close received: " + e.name + " " + e.data );
 			}
 
-			// Implements WebSocketUnityDelegate
-			public void OnWebSocketUnityReceiveData( byte[] data )
+			public void OnError( SocketIOEvent e )
 			{
-				Debug.Log( "Data received: " + System.Text.Encoding.UTF8.GetString( data ) );
+				Debug.Log( "[SocketIO] Error received: " + e.name + " " + e.data );
 			}
 
-			// Implements WebSocketUnityDelegate
-			public void OnWebSocketUnityError( string error )
+			public void OnOpen( SocketIOEvent e )
 			{
-				Debug.Log( "Socket error: " + error );
+				Debug.Log( "[SocketIO] Open received: " + e.name + " " + e.data );
 			}
 		}
 	}
