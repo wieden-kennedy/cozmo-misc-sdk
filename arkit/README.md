@@ -38,9 +38,7 @@ This example uses WebSockets. Put your IP address and Port in config.py. Make su
 ### Unity Plug-ins
 
  - [ARKit](https://www.assetstore.unity3d.com/en/#!/content/92515)
- - [WebSocketUnity*](https://www.assetstore.unity3d.com/en/#!/content/27658)
-
-###### \* WebSocketUnity is $35 in the asset store. It isn't too difficult to replace the web socket client here with your own if you want to avoid the cost.
+ - [Socket.IO](https://www.assetstore.unity3d.com/en/#!/content/21721)
 
 ### Unity Build Instructions
 
