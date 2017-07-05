@@ -288,7 +288,7 @@ class TapCube(threading.Thread):
             await asyncio.sleep(0.04)
 
     def send_msg(self, msg):
-        self._message = str(msg)
+        self._message = '{"message": %i' % str(msg)
         self._trigger_message = True
 
     def run_server(self):
