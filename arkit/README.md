@@ -19,6 +19,12 @@ Before running this experience, you'll want to make sure you have the latest ver
 
     $ pip3 install -r requirements.txt
     
+#### Obtain Device IP Address
+
+ - Make sure the device and the machine running server are on the same wi-fi network.
+ - On your device open Settings > Wi-Fi and tap on the network name and note the "IP Address".
+ - Open "lib/config.py" and update the `IP_ADDRESS` value with your device's IP address.
+ - Make sure the `PORT` matches the port number in the Unity project (set to 8000 by default).
 
 #### Run the Server
 
@@ -43,7 +49,7 @@ Before running this experience, you'll want to make sure you have the latest ver
  - Open the Unity project
  - Download and import the required plug-ins from the asset store
  - Open "/Assets/Scenes/Main.unity"
- - Play the scene in the editor to test (use keyboard keys 1-4 to test animations) without the server
+ - Play the scene in the editor to test (use keyboard keys 1-4 to test animations without the server)
  - Build the project for iOS
 
 ### Xcode Build Instructions
