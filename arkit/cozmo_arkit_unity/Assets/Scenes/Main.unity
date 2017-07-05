@@ -457,6 +457,7 @@ GameObject:
   m_Component:
   - component: {fileID: 806831446}
   - component: {fileID: 806831448}
+  - component: {fileID: 806831447}
   - component: {fileID: 806831445}
   - component: {fileID: 806831449}
   - component: {fileID: 806831450}
@@ -478,7 +479,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23ad6c8510cf24b85bfe083d9acca38f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  url: ws://192.168.0.1:8000
 --- !u!4 &806831446
 Transform:
   m_ObjectHideFlags: 0
@@ -492,6 +492,23 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &806831447
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 806831444}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 961346d7e16a445ff93777573e78efd6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  url: ws://127.0.0.1:4567/socket.io/?EIO=4&transport=websocket
+  autoConnect: 1
+  reconnectDelay: 5
+  ackExpirationTime: 1800
+  pingInterval: 25
+  pingTimeout: 60
 --- !u!114 &806831448
 MonoBehaviour:
   m_ObjectHideFlags: 0
