@@ -16,14 +16,15 @@
 
 """
 This server will communicate with the AR app via websocket.
-cozmo will try 3 times, animation is controlled by the round number - self._round (0-3)
+Cozmo will launch fireworks 3 times,
+animation is controlled by the round number.
 0. successful launch
 1. successful launch
 2. fail launch
 3. grand finale
 """
 import time
-import websockets
+import socket
 import asyncio
 import threading
 import asyncio
@@ -192,6 +193,8 @@ class TapCube(threading.Thread):
 
         # Tap unsuccessful
         if self._animation_triggered is False:
+            print("Cube tap not detected.\
+                Either Cozmo missed or cube has no power.")
             self._trigger_message = False
             await self._robot.play_anim(
                 "anim_keepaway_losehand_01"
@@ -279,23 +282,15 @@ class TapCube(threading.Thread):
             self._cube.rainbow_chaser()
             self._animation_triggered = True
 
-    async def handler(self, websocket, path):
-        while not stopFlag:
-            message = self._message
-            if self._trigger_message and message:
-                await websocket.send(message)
-                self._trigger_message = False
-            await asyncio.sleep(0.04)
-
     def send_msg(self, msg):
-        self._message = '{"message": %i' % str(msg)
+        self._message = str(msg).encode()
+        self.sock.sendto(self._message, (IP_ADDRESS, PORT))
         self._trigger_message = True
 
     def run_server(self):
-        ws_server = websockets.serve(self.handler, IP_ADDRESS, PORT)
+        self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         loop = asyncio.new_event_loop()
         asyncio.set_event_loop(loop)
-        loop.run_until_complete(ws_server)
         loop.run_forever()
 
 
