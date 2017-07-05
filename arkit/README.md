@@ -3,7 +3,7 @@ See what's going on inside Cozmo's little head with ARKit.
 
 We did an experiment with the latest release of ARKit to bring Cozmo's imagination to life as he gears up for July 4th Independence Day celebrations.
 
-This project contains a Python server that uses Websockets to communicate with an ARKit Unity app. The server is responsible for communicating with the app and controlling Cozmo's actions using the [Cozmo Python SDK](https://github.com/anki/cozmo-python-sdk).
+This project contains a Python server that uses UDP to communicate with an ARKit Unity app. The server is responsible for communicating with the app and controlling Cozmo's actions using the [Cozmo Python SDK](https://github.com/anki/cozmo-python-sdk).
 
 The Unity project lets you see Cozmo's imagination using the ARKit Unity plugin.
 
@@ -18,9 +18,7 @@ Before running this experience, you'll want to make sure you have the latest ver
 #### Install Dependencies     
 
     $ pip3 install -r requirements.txt
-
-#### Configure Your Local Server
-This example uses WebSockets. Put your IP address and Port in config.py. Make sure you connect to the same IP address in the Unity app `ws://<YOUR_IP_ADDRESS:PORT>`
+    
 
 #### Run the Server
 
@@ -38,7 +36,6 @@ This example uses WebSockets. Put your IP address and Port in config.py. Make su
 ### Unity Plug-ins
 
  - [ARKit](https://www.assetstore.unity3d.com/en/#!/content/92515)
- - [Socket.IO](https://www.assetstore.unity3d.com/en/#!/content/21721)
 
 ### Unity Build Instructions
 
@@ -46,7 +43,6 @@ This example uses WebSockets. Put your IP address and Port in config.py. Make su
  - Open the Unity project
  - Download and import the required plug-ins from the asset store
  - Open "/Assets/Scenes/Main.unity"
- - In the "Web Socket Client" component of the "Game Logic" node, update the web socket server's address to the location of your running server
  - Play the scene in the editor to test (use keyboard keys 1-4 to test animations) without the server
  - Build the project for iOS
 
