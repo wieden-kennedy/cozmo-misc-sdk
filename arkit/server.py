@@ -171,7 +171,7 @@ class TapCube(threading.Thread):
     async def see_fireworks(self, cube):
         if self._round != 2:
             await self._robot.drive_straight(
-                distance_mm(-50), speed_mmps(80)
+                distance_mm(-80), speed_mmps(100)
             ).wait_for_completed()
             await self._robot.set_lift_height(
                 0, duration=0.3
@@ -221,8 +221,8 @@ class TapCube(threading.Thread):
         # Grand finale
         if self._animation_triggered and self._round == 2:
             await asyncio.sleep(0.5)
-            await self._robot.play_anim(
-                "anim_memorymatch_failhand_03"
+            await self._robot.drive_straight(
+                distance_mm(-10), speed_mmps(100)
             ).wait_for_completed()
             await asyncio.sleep(0.5)
             await self._robot.play_anim(
